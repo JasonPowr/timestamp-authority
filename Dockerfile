@@ -40,6 +40,11 @@ CMD ["timestamp-server", "serve"]
 # debug compile options & debugger
 FROM registry.access.redhat.com/ubi9/go-toolset@sha256:e91cbbd0b659498d029dd43e050c8a009c403146bfba22cbebca8bcd0ee7925f as debug
 COPY --from=deploy /usr/local/bin/timestamp-server /usr/local/bin/timestamp-server
+
+WORKDIR $APP_ROOT/src/
+ADD hack/tools/go.mod hack/tools/go.sum $APP_ROOT/src/
+RUN go mod download
+
 RUN go install github.com/go-delve/delve/cmd/dlv@v1.9.0
 
 LABEL description="tsa"
