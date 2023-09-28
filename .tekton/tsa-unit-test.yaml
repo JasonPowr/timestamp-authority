@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: go-unit-test
+  annotations:
+    tekton.dev/title: "Go Unit Test Task"
+spec:
+  workspaces:
+    - name: source
+  steps:
+    - name: run-tests
+      image: registry.access.redhat.com/ubi9/go-toolset@sha256:e91cbbd0b659498d029dd43e050c8a009c403146bfba22cbebca8bcd0ee7925f
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/usr/bin/env sh
+        make all
+        go test ./...
+
+# This file bundles the unit tests for the timestamp-authority. 
+# If any changes are made to this file, it must be pushed to Quay using the following command:
+# 'tkn bundle push quay.io/securesign/tsa-unit-test:v1 -f .tekton/tsa-unit-test.yaml'.
+# This will generate a new SHA for the bundle. 
+# Ensure that this new SHA is updated in the pull and push pipeline files for each component.
