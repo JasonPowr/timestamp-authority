@@ -94,11 +94,11 @@ spec:
       description: Skip optional checks, set false if you want to run optional checks
       name: skip-optional
       type: string
-    - default: "false"
+    - default: "true"
       description: Execute the build with network isolation
       name: hermetic
       type: string
-    - default: ""
+    - default: [{"path": ".", "type": "gomod"}, {"path": "./hack/tools", "type": "gomod"}]
       description: Build dependencies to be prefetched by Cachi2
       name: prefetch-input
       type: string
@@ -364,6 +364,21 @@ spec:
         operator: in
         values:
         - "false"
+    - name: run-unit-test
+      runAfter:
+      - prefetch-dependencies    
+      taskRef:
+        params:
+        - name: name
+          value: go-unit-test
+        - name: bundle
+          value: quay.io/securesign/go-unit-test@sha256:2743ce9106dd0eeb15dd60f6b9e0e79f69e7f0854969f9da7e0cd9251aff7217
+        - name: kind
+          value: task
+        resolver: bundles
+      workspaces:
+        - name: source
+          workspace: workspace
     workspaces:
     - name: workspace
     - name: git-auth
