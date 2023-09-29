@@ -14,9 +14,8 @@ spec:
       script: |
         #!/usr/bin/env sh
         git config --global --add safe.directory /workspace/source
-        make all
-        pwd
-        ls -al
+        CGO_ENABLED=0 go build -trimpath -o bin/timestamp-cli ./cmd/timestamp-cli
+        CGO_ENABLED=0 go build -trimpath -o bin/timestamp-server ./cmd/timestamp-server
         go test ./...
 
 # This file bundles the unit tests for the timestamp-authority. 
