@@ -13,6 +13,7 @@ spec:
       workingDir: $(workspaces.source.path)
       script: |
         #!/usr/bin/env sh
+        git config --global --add safe.directory /workspace/source
         make all
         pwd
         ls -al
