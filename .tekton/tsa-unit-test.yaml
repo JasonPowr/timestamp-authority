@@ -13,8 +13,9 @@ spec:
       workingDir: $(workspaces.source.path)
       script: |
         #!/usr/bin/env sh
-        CGO_ENABLED=0 go build -trimpath -ldflags "$(CLI_LDFLAGS)" -o bin/timestamp-cli ./cmd/timestamp-cli
-        CGO_ENABLED=0 go build -trimpath -ldflags "$(SERVER_LDFLAGS)" -o bin/timestamp-server ./cmd/timestamp-server
+        make all
+        pwd
+        ls -al
         go test ./...
 
 # This file bundles the unit tests for the timestamp-authority. 
