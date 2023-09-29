@@ -38,11 +38,11 @@ COPY --from=builder /opt/app-root/src/timestamp-server_debug /usr/local/bin/time
 # Multi-Stage production build
 FROM registry.access.redhat.com/ubi9/go-toolset@sha256:e91cbbd0b659498d029dd43e050c8a009c403146bfba22cbebca8bcd0ee7925f as deploy
 
-LABEL description="tsa"
-LABEL io.k8s.description="tsa"
-LABEL io.k8s.display-name="tsa"
-LABEL io.openshift.tags="tsa"
-LABEL summary="tsa"
+LABEL description="The timestamp-authority is a process that provides a timestamp record of when a document was created or modified."
+LABEL io.k8s.description="The timestamp-authority is a process that provides a timestamp record of when a document was created or modified."
+LABEL io.k8s.display-name="Timestamp-authority container image for Red Hat Trusted Signer."
+LABEL io.openshift.tags="TSA trusted-signer."
+LABEL summary="Provides a timestamp-authority image."
 
 # Retrieve the binary from the previous stage
 COPY --from=builder /opt/app-root/src/timestamp-server /usr/local/bin/timestamp-server
