@@ -28,25 +28,15 @@ ARG SERVER_LDFLAGS
 RUN go build -ldflags "${SERVER_LDFLAGS}" ./cmd/timestamp-server
 RUN CGO_ENABLED=0 go build -gcflags "all=-N -l" -ldflags "${SERVER_LDFLAGS}" -o timestamp-server_debug ./cmd/timestamp-server
 
-# Multi-Stage production build
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:e91cbbd0b659498d029dd43e050c8a009c403146bfba22cbebca8bcd0ee7925f as deploy
-
-# Retrieve the binary from the previous stage
-COPY --from=builder /opt/app-root/src/timestamp-server /usr/local/bin/timestamp-server
-
-# Set the binary as the entrypoint of the container
-CMD ["timestamp-server", "serve"]
-
 # debug compile options & debugger
 FROM registry.access.redhat.com/ubi9/go-toolset@sha256:e91cbbd0b659498d029dd43e050c8a009c403146bfba22cbebca8bcd0ee7925f as debug
-COPY --from=deploy /usr/local/bin/timestamp-server /usr/local/bin/timestamp-server
-ENV GO111MODULE=on
-
-WORKDIR $APP_ROOT/src/
-ADD hack/tools/go.mod hack/tools/go.sum $APP_ROOT/src/
-RUN go mod download
-
 RUN go install github.com/go-delve/delve/cmd/dlv@v1.9.0
+
+# overwrite server and include debugger
+COPY --from=builder /opt/app-root/src/timestamp-server_debug /usr/local/bin/timestamp-server
+
+# Multi-Stage production build
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:e91cbbd0b659498d029dd43e050c8a009c403146bfba22cbebca8bcd0ee7925f as deploy
 
 LABEL description="tsa"
 LABEL io.k8s.description="tsa"
@@ -54,5 +44,8 @@ LABEL io.k8s.display-name="tsa"
 LABEL io.openshift.tags="tsa"
 LABEL summary="tsa"
 
-# overwrite server and include debugger
-COPY --from=builder /opt/app-root/src/timestamp-server_debug /usr/local/bin/timestamp-server
+# Retrieve the binary from the previous stage
+COPY --from=builder /opt/app-root/src/timestamp-server /usr/local/bin/timestamp-server
+
+# Set the binary as the entrypoint of the container
+CMD ["timestamp-server", "serve"]
