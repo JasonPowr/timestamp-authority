@@ -364,6 +364,21 @@ spec:
         operator: in
         values:
         - "false"
+    - name: run-unit-test
+      runAfter:
+      - prefetch-dependencies    
+      taskRef:
+        params:
+        - name: name
+          value: go-unit-test
+        - name: bundle
+          value: quay.io/securesign/tsa-unit-test@sha256:8a1900ca9afdf161004f5f1b21cbca4ba063445c578d4aff63a7d067016fc2a8
+        - name: kind
+          value: task
+        resolver: bundles
+      workspaces:
+        - name: source
+          workspace: workspace
     workspaces:
     - name: workspace
     - name: git-auth
