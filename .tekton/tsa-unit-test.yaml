@@ -13,9 +13,8 @@ spec:
       workingDir: $(workspaces.source.path)/source
       script: |
         #!/usr/bin/env sh
-        git config --global --add safe.directory .
-        CGO_ENABLED=0 go build -trimpath -o bin/timestamp-cli ./cmd/timestamp-cli
-        CGO_ENABLED=0 go build -trimpath -o bin/timestamp-server ./cmd/timestamp-server
+        CGO_ENABLED=0 go build -buildvcs=false -trimpath -o bin/timestamp-cli ./cmd/timestamp-cli
+        CGO_ENABLED=0 go build -buildvcs=false -trimpath -o bin/timestamp-server ./cmd/timestamp-server
         go test ./...
         
 
