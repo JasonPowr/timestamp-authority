@@ -7,8 +7,11 @@ on:
     
 jobs:
   check-image-version:
-    uses: JasonPowr/actions/.github/workflows/check-image-version.yaml@add-extra-check-for-check-image-version
+    uses: jasonPowr/actions/.github/workflows/check-image-version.yaml@change-check-image-version-to-use-matrix
+    strategy:
+      matrix:
+        branch: [main, midstream-v1.1.2]
     with:
-      mainRef: main
+      branch: ${{ matrix.branch }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
