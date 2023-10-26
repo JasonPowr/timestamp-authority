@@ -12,6 +12,6 @@ jobs:
       matrix:
         branch: [main, midstream-v1.1.2]
     with:
-      branch: ${{ matrix.target }}
+      branch: ${{ matrix.branch }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
