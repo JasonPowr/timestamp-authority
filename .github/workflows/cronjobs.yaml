@@ -7,7 +7,7 @@ on:
     
 jobs:
   check-image-version:
-    uses: jasonPowr/actions/.github/workflows/check-image-version.yaml@change-check-image-version-to-use-matrix
+    uses: securesign/actions/.github/workflows/check-image-version.yaml@main
     strategy:
       matrix:
         branch: [main, midstream-v1.1.2]
