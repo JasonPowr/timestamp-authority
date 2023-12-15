@@ -7,7 +7,7 @@ on:
     
 jobs:
   check-image-version:
-    uses: lance/actions/.github/workflows/check-image-version.yaml@more-repos
+    uses: JasonPowr/actions/.github/workflows/check-image-version.yaml@fix-pathing-issue-in-main
     strategy:
       matrix:
         branch: [main, redhat-v1.2]
