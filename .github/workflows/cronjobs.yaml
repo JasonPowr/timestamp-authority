@@ -7,7 +7,7 @@ on:
     
 jobs:
   check-image-version:
-    uses: securesign/actions/.github/workflows/check-image-version.yaml@main
+    uses: lance/actions/.github/workflows/check-image-version.yaml@more-repos
     strategy:
       matrix:
         branch: [main, redhat-v1.2]
