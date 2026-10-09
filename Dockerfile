@@ -28,7 +28,7 @@ RUN git config --global --add safe.directory /opt/app-root/src && \
     CGO_ENABLED=0 go build -mod=readonly -ldflags "${SERVER_LDFLAGS}" ./cmd/timestamp-server
 
 # Multi-Stage production build
-FROM registry.access.redhat.com/ubi9/ubi-minimal@sha256:3e313209ac617a92b50350286752311d99ea2dafc429ef0e5311889294b0bc21 as deploy
+FROM registry.access.redhat.com/ubi9/ubi-minimal@sha256:68b92732accbffdd8e2491b4c29976634ed92459f5779dac2aad670c967337c7 as deploy
 
 # Retrieve the binary from the previous stage
 COPY --from=builder /opt/app-root/src/timestamp-server /usr/local/bin/timestamp-server
